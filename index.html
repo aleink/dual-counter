@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .counter-section {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      width: 45%;
+      text-align: center;
+    }
+
+    .count-display {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #ffffff;
+    }
+
+    .decrement {
+      background-color: #FF4C4C;
+    }
+
+    .increment {
+      background-color: #4CAF50;
+    }
+
+    .reset {
+      background-color: #ff4d4d;
+      margin-top: 30px;
+      font-size: 20px;
+    }
+
+    .custom-input {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .custom-input input {
+      width: 60px;
+      padding: 10px;
+      font-size: 16px;
+      text-align: center;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .custom-input button {
+      background-color: #007BFF;
+      color: #ffffff;
+    }
+
+    .summary {
+      font-size: 20px;
+      margin-top: 30px;
+    }
+
+    .total {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dual Counter</h1>
+
+  <div class="container">
+    <!-- Left Counter -->
+    <div class="counter-section" id="left-counter-section">
+      <h2>Left Counter</h2>
+      <div class="count-display" id="left-count">0</div>
+      <div class="button-group">
+        <button class="decrement" onclick="updateCount('left', -1)">-1</button>
+        <button class="increment" onclick="updateCount('left', 1)">+1</button>
+      </div>
+      <div class="custom-input">
+        <input type="number" id="left-custom-value" placeholder="Value">
+        <button onclick="updateCountWithCustomValue('left')">Add</button>
+      </div>
+    </div>
+
+    <!-- Right Counter -->
+    <div class="counter-section" id="right-counter-section">
+      <h2>Right Counter</h2>
+      <div class="count-display" id="right-count">0</div>
+      <div class="button-group">
+        <button class="decrement" onclick="updateCount('right', -1)">-1</button>
+        <button class="increment" onclick="updateCount('right', 1)">+1</button>
+      </div>
+      <div class="custom-input">
+        <input type="number" id="right-custom-value" placeholder="Value">
+        <button onclick="updateCountWithCustomValue('right')">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <p>Left Count: <span id="left-summary">0</span></p>
+    <p>Right Count: <span id="right-summary">0</span></p>
+    <p class="total">Total Count: <span id="total-count">0</span></p>
+  </div>
+
+  <!-- Reset Button -->
+  <button class="reset" onclick="resetCounters()">Reset All</button>
+
+  <script>
+    let leftCount = 0;
+    let rightCount = 0;
+
+    function updateCount(side, amount) {
+      if (side === 'left') {
+        leftCount += amount;
+        document.getElementById('left-count').innerText = leftCount;
+        document.getElementById('left-summary').innerText = leftCount;
+      } else if (side === 'right') {
+        rightCount += amount;
+        document.getElementById('right-count').innerText = rightCount;
+        document.getElementById('right-summary').innerText = rightCount;
+      }
+      updateTotal();
+    }
+
+    function updateCountWithCustomValue(side) {
+      const value = parseInt(document.getElementById(`${side}-custom-value`).value) || 0;
+      updateCount(side, value);
+      document.getElementById(`${side}-custom-value`).value = ''; // Clear the input field
+    }
+
+    function updateTotal() {
+      const total = leftCount + rightCount;
+      document.getElementById('total-count').innerText = total;
+    }
+
+    function resetCounters() {
+      leftCount = 0;
+      rightCount = 0;
+      document.getElementById('left-count').innerText = leftCount;
+      document.getElementById('right-count').innerText = rightCount;
+      document.getElementById('left-summary').innerText = leftCount;
+      document.getElementById('right-summary').innerText = rightCount;
+      document.getElementById('total-count').innerText = leftCount + rightCount;
+
+      // Clear the custom input fields
+      document.getElementById('left-custom-value').value = '';
+      document.getElementById('right-custom-value').value = '';
+    }
+  </script>
+
+</body>
+</html>
