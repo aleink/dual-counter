@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dual Counter</title>
+  <title>Dual Counter with Streaks</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -101,6 +101,11 @@
       margin-top: 10px;
     }
 
+    .streaks {
+      font-size: 18px;
+      margin-top: 30px;
+    }
+
     .footer {
       font-size: 14px;
       color: #666;
@@ -110,7 +115,7 @@
 </head>
 <body>
 
-  <h1>Dual Counter</h1>
+  <h1>Dual Counter with Streaks</h1>
 
   <div class="container">
     <!-- Left Counter -->
@@ -149,6 +154,12 @@
     <p class="total">Total Count: <span id="total-count">0</span></p>
   </div>
 
+  <!-- Streaks -->
+  <div class="streaks">
+    <p>Max Losses in a Row: <span id="max-loss-streak">0</span></p>
+    <p>Max Wins in a Row: <span id="max-win-streak">0</span></p>
+  </div>
+
   <!-- Reset Button -->
   <button class="reset" onclick="resetCounters()">Reset All</button>
 
@@ -161,6 +172,11 @@
     let leftCount = 0;
     let rightCount = 0;
 
+    let currentWinStreak = 0;
+    let currentLossStreak = 0;
+    let maxWinStreak = 0;
+    let maxLossStreak = 0;
+
     function updateCount(side, amount) {
       if (side === 'left') {
         leftCount += amount;
@@ -171,6 +187,22 @@
         document.getElementById('right-count').innerText = rightCount;
         document.getElementById('right-summary').innerText = rightCount;
       }
+      
+      // Check if it’s a win or a loss and update streaks
+      if (amount > 0) {
+        currentWinStreak++;
+        currentLossStreak = 0; // reset loss streak
+        if (currentWinStreak > maxWinStreak) maxWinStreak = currentWinStreak;
+      } else if (amount < 0) {
+        currentLossStreak++;
+        currentWinStreak = 0; // reset win streak
+        if (currentLossStreak > maxLossStreak) maxLossStreak = currentLossStreak;
+      }
+
+      // Update streak display
+      document.getElementById('max-win-streak').innerText = maxWinStreak;
+      document.getElementById('max-loss-streak').innerText = maxLossStreak;
+
       updateTotal();
     }
 
@@ -188,11 +220,18 @@
     function resetCounters() {
       leftCount = 0;
       rightCount = 0;
+      currentWinStreak = 0;
+      currentLossStreak = 0;
+      maxWinStreak = 0;
+      maxLossStreak = 0;
+
       document.getElementById('left-count').innerText = leftCount;
       document.getElementById('right-count').innerText = rightCount;
       document.getElementById('left-summary').innerText = leftCount;
       document.getElementById('right-summary').innerText = rightCount;
       document.getElementById('total-count').innerText = (leftCount + rightCount).toFixed(2);
+      document.getElementById('max-win-streak').innerText = maxWinStreak;
+      document.getElementById('max-loss-streak').innerText = maxLossStreak;
 
       // Clear the custom input fields
       document.getElementById('left-custom-value').value = '';
