@@ -100,6 +100,12 @@
       font-weight: bold;
       margin-top: 10px;
     }
+
+    .footer {
+      font-size: 14px;
+      color: #666;
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body>
@@ -109,28 +115,28 @@
   <div class="container">
     <!-- Left Counter -->
     <div class="counter-section" id="left-counter-section">
-      <h2>Left Counter</h2>
+      <h2>1:1 Corto</h2>
       <div class="count-display" id="left-count">0</div>
       <div class="button-group">
         <button class="decrement" onclick="updateCount('left', -1)">-1</button>
         <button class="increment" onclick="updateCount('left', 1)">+1</button>
       </div>
       <div class="custom-input">
-        <input type="number" id="left-custom-value" placeholder="Value">
+        <input type="number" step="0.01" id="left-custom-value" placeholder="Value">
         <button onclick="updateCountWithCustomValue('left')">Add</button>
       </div>
     </div>
 
     <!-- Right Counter -->
     <div class="counter-section" id="right-counter-section">
-      <h2>Right Counter</h2>
+      <h2>1:1 Largo</h2>
       <div class="count-display" id="right-count">0</div>
       <div class="button-group">
         <button class="decrement" onclick="updateCount('right', -1)">-1</button>
         <button class="increment" onclick="updateCount('right', 1)">+1</button>
       </div>
       <div class="custom-input">
-        <input type="number" id="right-custom-value" placeholder="Value">
+        <input type="number" step="0.01" id="right-custom-value" placeholder="Value">
         <button onclick="updateCountWithCustomValue('right')">Add</button>
       </div>
     </div>
@@ -138,13 +144,18 @@
 
   <!-- Summary -->
   <div class="summary">
-    <p>Left Count: <span id="left-summary">0</span></p>
-    <p>Right Count: <span id="right-summary">0</span></p>
+    <p>1:1 Corto Count: <span id="left-summary">0</span></p>
+    <p>1:1 Largo Count: <span id="right-summary">0</span></p>
     <p class="total">Total Count: <span id="total-count">0</span></p>
   </div>
 
   <!-- Reset Button -->
   <button class="reset" onclick="resetCounters()">Reset All</button>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; MERCAMUSA
+  </div>
 
   <script>
     let leftCount = 0;
@@ -164,14 +175,14 @@
     }
 
     function updateCountWithCustomValue(side) {
-      const value = parseInt(document.getElementById(`${side}-custom-value`).value) || 0;
+      const value = parseFloat(document.getElementById(`${side}-custom-value`).value) || 0;
       updateCount(side, value);
       document.getElementById(`${side}-custom-value`).value = ''; // Clear the input field
     }
 
     function updateTotal() {
       const total = leftCount + rightCount;
-      document.getElementById('total-count').innerText = total;
+      document.getElementById('total-count').innerText = total.toFixed(2);
     }
 
     function resetCounters() {
@@ -181,7 +192,7 @@
       document.getElementById('right-count').innerText = rightCount;
       document.getElementById('left-summary').innerText = leftCount;
       document.getElementById('right-summary').innerText = rightCount;
-      document.getElementById('total-count').innerText = leftCount + rightCount;
+      document.getElementById('total-count').innerText = (leftCount + rightCount).toFixed(2);
 
       // Clear the custom input fields
       document.getElementById('left-custom-value').value = '';
