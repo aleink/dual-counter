@@ -247,4 +247,35 @@
       rightCount = 0;
 
       // Reset streaks for left counter
-      leftWinStreak = 0
+      leftWinStreak = 0;
+      leftLossStreak = 0;
+      leftMaxWinStreak = 0;
+      leftMaxLossStreak = 0;
+
+      // Reset streaks for right counter
+      rightWinStreak = 0;
+      rightLossStreak = 0;
+      rightMaxWinStreak = 0;
+      rightMaxLossStreak = 0;
+
+      // Reset displayed counts
+      document.getElementById('left-count').innerText = leftCount;
+      document.getElementById('right-count').innerText = rightCount;
+      document.getElementById('left-summary').innerText = leftCount;
+      document.getElementById('right-summary').innerText = rightCount;
+      document.getElementById('total-count').innerText = (leftCount + rightCount).toFixed(2);
+      
+      // Reset streak displays
+      document.getElementById('left-max-win-streak').innerText = leftMaxWinStreak;
+      document.getElementById('left-max-loss-streak').innerText = leftMaxLossStreak;
+      document.getElementById('right-max-win-streak').innerText = rightMaxWinStreak;
+      document.getElementById('right-max-loss-streak').innerText = rightMaxLossStreak;
+
+      // Clear the custom input fields
+      document.getElementById('left-custom-value').value = '';
+      document.getElementById('right-custom-value').value = '';
+    }
+  </script>
+
+</body>
+</html>
